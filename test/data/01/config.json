@@ -1,0 +1,47 @@
+{
+    "storage": {
+        "input": {
+            "tables": {
+                "0": {
+                    "source": "in.c-main.data",
+                    "destination": "sample.csv"
+                }
+            }
+        },
+        "output": {
+            "tables": {
+                "0": {
+                    "source": "sample.csv",
+                    "destination": "out.c-main.data"
+                }
+            }
+        }
+    },
+    "parameters": {
+        "packages": [
+            "matrix_vector",
+            "matrix"
+        ],
+        "script": [
+            "import sys",
+            "import csv",
+            "",
+            "inFilePath = 'in/tables/sample.csv'",
+            "outFilePath = 'out/tables/sample.csv'",
+            "csvDelimiter = ','",
+            "csvQuoteChar = '\"'",
+            "",
+            "with open(inFilePath, 'rt') as inFile, open(outFilePath, 'wt') as outFile:",
+            "    reader = csv.DictReader(inFile, delimiter = csvDelimiter, quotechar = csvQuoteChar)",
+            "    next(reader, None)  # skip the headers",
+            "    writer = csv.DictWriter(outFile, fieldnames = ['funkyNumber', 'whatever', 'biggerFunky'], lineterminator='\\n', delimiter = csvDelimiter, quotechar = csvQuoteChar)",
+            "    writer.writeheader()",
+            "    for row in reader:",
+            "        writer.writerow({",
+            "            'funkyNumber': row['funkyNumber'],",
+            "            'whatever': row['whatever'],",
+            "            'biggerFunky': int(row['funkyNumber']) ** 3",
+            "        })"
+        ]
+    }
+}
