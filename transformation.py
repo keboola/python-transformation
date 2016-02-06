@@ -44,9 +44,13 @@ class App:
         os.chdir(cfg.getDataDir())
         # Execute the actual script
         with open('script.py', 'rt') as script:
-            exec(script.read())
-            
-        print('Script finished')
+            try:
+                exec(script.read())
+                print('Script finished')
+            except Exception as err:
+                print(err, file=sys.stderr)
+                traceback.print_exc(file=sys.stderr)
+                raise ValueError('scriptContent is required parameter.')
 
     def prepareTaggedFiles(self, cfg, tags):
         """

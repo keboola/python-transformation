@@ -48,3 +48,14 @@ class TestTransformation:
             pytest.xfail("Must raise exception.")
         except (ValueError):
             pass        
+
+    def test_scriptSyntaxError(self, dataDir):
+        if (os.getenv('KBC_DATA_DIR') != None):
+            dataDir = os.getenv('KBC_DATA_DIR')
+        dataDir = dataDir + '/04/'
+        app = transformation.App(dataDir)
+        try:
+            app.run()
+            pytest.xfail("Must raise exception.")
+        except (ValueError):
+            pass        
