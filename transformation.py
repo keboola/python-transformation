@@ -2,7 +2,6 @@
 from keboola import docker
 import os
 import csv
-import pip
 
 class App:
 
@@ -10,6 +9,9 @@ class App:
         self.dataDir = dataDir
         
     def run(self):
+        import pip
+        import sys
+        import traceback
         # initialize KBC configuration 
         cfg = docker.Config(self.dataDir)
         # validate application parameters
