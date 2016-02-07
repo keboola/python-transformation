@@ -52,7 +52,8 @@ class App:
             except Exception as err:
                 print(err, file=sys.stderr)
                 traceback.print_exc(file=sys.stderr)
-                raise ValueError('scriptContent is required parameter.')
+                print(script.read())
+                raise ValueError('Script failed.')
 
     def prepareTaggedFiles(self, cfg, tags):
         """
