@@ -29,7 +29,7 @@ class App:
         
         # install packages
         for package in packages:
-            if pip.main(['install', package]) != 0:
+            if pip.main(['install', '--disable-pip-version-check', package]) != 0:
                 raise ValueError('Failed to install package: ' + package)
         
         # prepare tagged files
