@@ -16,7 +16,10 @@ RUN yum -y update \
 		sympy \
 		python-nose \
 		libpng \
+		libpng-devel \
 		freetype2 \ 
+		freetype-devel \
+		gcc-c++ \
 	&& yum clean all
 
 # Install some commonly used packages and the Python application
