@@ -7,14 +7,14 @@ WORKDIR /home
 COPY . /home/
 
 # Install some commonly used packages and the Python application
-RUN pip install --no-cache-dir \
+RUN pip install --no-cache-dir --ignore-installed --cert=/usr/cacert.pem \
 		PyYaml \
 		httplib2 \
 		pymongo \
 		ipython \
 		numpy \
 		scipy \
-	&& pip install --upgrade git+git://github.com/keboola/python-docker-application.git
+	&& pip install --upgrade --no-cache-dir --ignore-installed --cert=/usr/cacert.pem git+git://github.com/keboola/python-docker-application.git
 
 # Run the application
 ENTRYPOINT python ./main.py --data=/data/
