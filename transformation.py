@@ -47,7 +47,7 @@ class App:
         # Execute the actual script
         with open('script.py', 'rt') as script:
             try:
-                exec(script.read())
+                exec(script.read(), globals())
                 print('Script finished')
             except Exception as err:
                 print(err, file=sys.stderr)
