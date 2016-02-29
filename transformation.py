@@ -50,9 +50,10 @@ class App:
                 exec(script.read(), globals())
                 print('Script finished')
             except Exception as err:
+                _, _, tb = sys.exc_info()
+                stackLen = len(traceback.extract_tb(tb)) - 1
                 print(err, file=sys.stderr)
-                traceback.print_exc(file=sys.stderr)
-                print(script.read())
+                traceback.print_exception(*sys.exc_info(), -stackLen, file=sys.stderr, chain = True)
                 raise ValueError('Script failed.')
 
     def prepareTaggedFiles(self, cfg, tags):
