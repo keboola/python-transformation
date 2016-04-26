@@ -32,7 +32,7 @@
             "",
             "result = int(modelData) + int(pokusData)",
             "with open('out/tables/sample.csv', 'wt') as outFile:",
-            "   writer = csv.DictWriter(outFile, fieldnames = ['x'], lineterminator='\\n', delimiter = ',', quotechar = '\"')",
+            "   writer = csv.DictWriter(outFile, fieldnames = ['x'], lineterminator='\\n', delimiter=',', quotechar='\"')",
             "   writer.writeheader()",
             "   writer.writerow({'x': result})"
         ]

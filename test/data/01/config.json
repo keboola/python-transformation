@@ -34,7 +34,7 @@
             "with open(inFilePath, 'rt') as inFile, open(outFilePath, 'wt') as outFile:",
             "    reader = csv.DictReader(inFile, delimiter = csvDelimiter, quotechar = csvQuoteChar)",
             "    next(reader, None)  # skip the headers",
-            "    writer = csv.DictWriter(outFile, fieldnames = ['funkyNumber', 'whatever', 'biggerFunky'], lineterminator='\\n', delimiter = csvDelimiter, quotechar = csvQuoteChar)",
+            "    writer = csv.DictWriter(outFile, fieldnames = ['funkyNumber', 'whatever', 'biggerFunky'], lineterminator='\\n', delimiter=csvDelimiter, quotechar=csvQuoteChar)",
             "    writer.writeheader()",
             "    for row in reader:",
             "        writer.writerow({",
