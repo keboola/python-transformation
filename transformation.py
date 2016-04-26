@@ -5,18 +5,18 @@ import csv
 
 class App:
 
-    def __init__(self, dataDir = None):
-        self.dataDir = dataDir
+    def __init__(self, data_dir = None):
+        self.data_dir = data_dir
         
     def run(self):
         import pip
         import sys
         import traceback
         # initialize KBC configuration 
-        cfg = docker.Config(self.dataDir)
+        cfg = docker.Config(self.data_dir)
         # validate application parameters
-        parameters = cfg.getParameters()
-        scriptContent = parameters.get('script')
+        parameters = cfg.get_parameters()
+        script_content = parameters.get('script')
         tags = parameters.get('tags')
         if (tags is None):
             tags = []
@@ -24,8 +24,8 @@ class App:
         if (packages is None):
             packages = []
                     
-        if (scriptContent is None):
-            raise ValueError('scriptContent is required parameter.')
+        if (script_content is None):
+            raise ValueError('script_content is required parameter.')
         
         # install packages
         for package in packages:
@@ -33,17 +33,17 @@ class App:
                 raise ValueError('Failed to install package: ' + package)
         
         # prepare tagged files
-        self.prepareTaggedFiles(cfg, tags)
+        self.prepare_tagged_files(cfg, tags)
         
-        scriptFile = cfg.getDataDir() + 'script.py'
-        print('Script file ' + scriptFile)
-        with open(scriptFile, 'wt') as script:
-            for line in scriptContent:
+        script_file = cfg.get_data_dir() + 'script.py'
+        print('Script file ' + script_file)
+        with open(script_file, 'wt') as script:
+            for line in script_content:
                 script.write(line)
                 script.write('\n')
             
         # Change current working directory so that relative paths work
-        os.chdir(cfg.getDataDir())
+        os.chdir(cfg.get_data_dir())
         # Execute the actual script
         with open('script.py', 'rt') as script:
             try:
@@ -51,12 +51,12 @@ class App:
                 print('Script finished')
             except Exception as err:
                 _, _, tb = sys.exc_info()
-                stackLen = len(traceback.extract_tb(tb)) - 1
+                stack_len = len(traceback.extract_tb(tb)) - 1
                 print(err, file=sys.stderr)
-                traceback.print_exception(*sys.exc_info(), -stackLen, file=sys.stderr, chain = True)
+                traceback.print_exception(*sys.exc_info(), -stack_len, file=sys.stderr, chain = True)
                 raise ValueError('Script failed.')
 
-    def prepareTaggedFiles(self, cfg, tags):
+    def prepare_tagged_files(self, cfg, tags):
         """
         When supplied a list of tags, select input files with the given tags and prepare the 
         most recent file of those into a /user/ folder
@@ -68,22 +68,22 @@ class App:
         from datetime import datetime, timezone
         from shutil import copyfile
         
-        if not os.path.exists(os.path.join(cfg.getDataDir(), 'in', 'user')):
-            os.makedirs(os.path.join(cfg.getDataDir(), 'in', 'user'))
+        if not os.path.exists(os.path.join(cfg.get_data_dir(), 'in', 'user')):
+            os.makedirs(os.path.join(cfg.get_data_dir(), 'in', 'user'))
 
         for tag in tags:
-            lastTime = datetime(1, 1, 1, 0, 0, 0, 0, timezone.utc)
-            lastManifest = ''
-            for file in cfg.getInputFiles():
-                manifest = cfg.getFileManifest(file)
+            last_time = datetime(1, 1, 1, 0, 0, 0, 0, timezone.utc)
+            last_manifest = ''
+            for file in cfg.get_input_files():
+                manifest = cfg.get_file_manifest(file)
                 if (tag in manifest['tags']):
-                    fileTime = datetime.strptime(manifest['created'], '%Y-%m-%dT%H:%M:%S%z')
-                    if (fileTime > lastTime):
-                        lastTime = fileTime
-                        lastManifest = file
-            if (lastManifest == ''):
+                    file_time = datetime.strptime(manifest['created'], '%Y-%m-%dT%H:%M:%S%z')
+                    if (file_time > last_time):
+                        last_time = file_time
+                        last_manifest = file
+            if (last_manifest == ''):
                 raise ValueError("No files were found for tag: " + tag) 
             else:
-                copyfile(file, os.path.join(cfg.getDataDir(), 'in', 'user', tag))
-                copyfile(file + '.manifest', os.path.join(cfg.getDataDir(), 'in', 'user', tag + '.manifest'))
+                copyfile(file, os.path.join(cfg.get_data_dir(), 'in', 'user', tag))
+                copyfile(file + '.manifest', os.path.join(cfg.get_data_dir(), 'in', 'user', tag + '.manifest'))
                 

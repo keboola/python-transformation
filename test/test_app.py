@@ -3,14 +3,14 @@ import os
 import csv
 
 class TestTransformation:
-    def test_transformation(self, dataDir):
+    def test_transformation(self, data_dir):
         if (os.getenv('KBC_DATA_DIR') != None):
-            dataDir = os.getenv('KBC_DATA_DIR')
-        dataDir = dataDir + '/01/'
+            data_dir = os.getenv('KBC_DATA_DIR')
+        data_dir = data_dir + '/01/'
         # generate absolute path before the application is run, because it may alter current working directory 
-        resultFile = os.path.abspath(dataDir + '/out/tables/sample.csv')
+        resultFile = os.path.abspath(data_dir + '/out/tables/sample.csv')
         
-        app = transformation.App(dataDir)
+        app = transformation.App(data_dir)
         app.run()
 
         assert(os.path.isfile(resultFile))
@@ -20,14 +20,14 @@ class TestTransformation:
                 expected = (int(row['funkyNumber']) ** 3)
                 assert(expected == int(row['biggerFunky']))            
 
-    def test_taggedFiles(self, dataDir):
+    def test_tagged_files(self, data_dir):
         if (os.getenv('KBC_DATA_DIR') != None):
-            dataDir = os.getenv('KBC_DATA_DIR')
-        dataDir = dataDir + '/02/'
+            data_dir = os.getenv('KBC_DATA_DIR')
+        data_dir = data_dir + '/02/'
         # generate absolute path before the application is run, because it may alter current working directory 
-        resultDir = os.path.abspath(dataDir)
+        resultDir = os.path.abspath(data_dir)
                     
-        app = transformation.App(dataDir)
+        app = transformation.App(data_dir)
         app.run()
 
         assert(os.path.isfile(resultDir + '/in/user/pokus'))
@@ -38,22 +38,22 @@ class TestTransformation:
             for row in csvReader:
                 assert(6 == int(row['x']))            
         
-    def test_packageError(self, dataDir):
+    def test_package_error(self, data_dir):
         if (os.getenv('KBC_DATA_DIR') != None):
-            dataDir = os.getenv('KBC_DATA_DIR')
-        dataDir = dataDir + '/03/'
-        app = transformation.App(dataDir)
+            data_dir = os.getenv('KBC_DATA_DIR')
+        data_dir = data_dir + '/03/'
+        app = transformation.App(data_dir)
         try:
             app.run()
             pytest.xfail("Must raise exception.")
         except (ValueError):
             pass        
 
-    def test_scriptSyntaxError(self, dataDir):
+    def test_script_syntax_error(self, data_dir):
         if (os.getenv('KBC_DATA_DIR') != None):
-            dataDir = os.getenv('KBC_DATA_DIR')
-        dataDir = dataDir + '/04/'
-        app = transformation.App(dataDir)
+            data_dir = os.getenv('KBC_DATA_DIR')
+        data_dir = data_dir + '/04/'
+        app = transformation.App(data_dir)
         try:
             app.run()
             pytest.xfail("Must raise exception.")
