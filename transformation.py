@@ -83,5 +83,5 @@ class App:
             if (last_manifest == ''):
                 raise ValueError("No files were found for tag: " + tag)
             else:
-                copyfile(file, os.path.join(cfg.get_data_dir(), 'in', 'user', tag))
-                copyfile(file + '.manifest', os.path.join(cfg.get_data_dir(), 'in', 'user', tag + '.manifest'))
+                copyfile(last_manifest, os.path.join(cfg.get_data_dir(), 'in', 'user', tag))
+                copyfile(last_manifest + '.manifest', os.path.join(cfg.get_data_dir(), 'in', 'user', tag + '.manifest'))

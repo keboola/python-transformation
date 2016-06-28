@@ -4,7 +4,7 @@
      "created": "2015-08-16T02:01:37+0200",
      "is_public": false,
      "is_encrypted": false,
-     "tags": ["pokus", "model"],
+     "tags": ["pokus"],
      "max_age_days" : 180,
      "size_bytes" : 1
 }

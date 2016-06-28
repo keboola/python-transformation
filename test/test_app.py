@@ -38,7 +38,7 @@ class TestTransformation:
         with open(result_dir + '/out/tables/sample.csv', 'rt') as sample:
             csv_reader = csv.DictReader(sample, delimiter=',', quotechar='"')
             for row in csv_reader:
-                assert(6 == int(row['x']))
+                assert(5 == int(row['x']))
 
     def test_package_error(self, data_dir):
         if (os.getenv('KBC_DATA_DIR') is not None):
