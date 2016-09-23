@@ -3,9 +3,6 @@ MAINTAINER Ondrej Popelka <ondrej.popelka@keboola.com>
 
 WORKDIR /home
 
-# Initialize the transformation runner
-COPY . /home/
-
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
 		python-numpy \
 		python-scipy \
@@ -28,6 +25,9 @@ RUN pip install --no-cache-dir --ignore-installed \
 		PyYaml \
 		pytest-cov \
 	&& pip install --upgrade --no-cache-dir --ignore-installed --cert=/tmp/cacert.pem git+git://github.com/keboola/python-docker-application.git@1.1.0
+
+# Initialize the transformation runner
+COPY . /home/
 
 # Run the application
 ENTRYPOINT python ./main.py --data=/data/
