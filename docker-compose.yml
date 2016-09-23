@@ -1,0 +1,10 @@
+version: '2'
+services:
+  python-transformation:
+    build: .
+    image: keboola/python-transformation
+    tty: true
+    stdin_open: true
+    command: bash
+    volumes:
+      - ./:/code

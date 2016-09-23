@@ -1,4 +1,4 @@
-FROM quay.io/keboola/base-python:3.5.1-f
+FROM quay.io/keboola/base-python:3.5.2-a
 MAINTAINER Ondrej Popelka <ondrej.popelka@keboola.com>
 
 WORKDIR /home
@@ -6,24 +6,19 @@ WORKDIR /home
 # Initialize the transformation runner
 COPY . /home/
 
-RUN yum -y update \
-	&& yum -y install \
-		numpy \
-		scipy \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+		python-numpy \
+		python-scipy \
 		python-matplotlib \
 		ipython \
 		python-pandas \
-		sympy \
+		python-sympy \
 		python-nose \
-		libpng \
-		libpng-devel \
-		freetype2 \ 
-		freetype-devel \
-		gcc-c++ \
-	&& yum clean all
+		g++ \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Install some commonly used packages and the Python application
-RUN pip install --no-cache-dir --ignore-installed --cert=/tmp/cacert.pem \
+RUN pip install --no-cache-dir --ignore-installed \
 		PyYaml \
 		httplib2 \
 		pandas \
