@@ -19,13 +19,14 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
 
 # Install some commonly used packages and the Python application
 RUN pip install --no-cache-dir --ignore-installed \
-		PyYaml \
 		httplib2 \
+		ipython \
+		matplotlib \
+		numpy \		
 		pandas \
 		pymongo \
-		ipython \
-		numpy \		
-		matplotlib \
+		PyYaml \
+		pytest-cov \
 	&& pip install --upgrade --no-cache-dir --ignore-installed --cert=/tmp/cacert.pem git+git://github.com/keboola/python-docker-application.git@1.1.0
 
 # Run the application
