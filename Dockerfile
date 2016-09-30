@@ -11,6 +11,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
 		python-pandas \
 		python-sympy \
 		python-nose \
+		python3-tk \
 		g++ \
 	&& rm -rf /var/lib/apt/lists/*
 
