@@ -1,4 +1,4 @@
-FROM quay.io/keboola/base-python:3.5.2-a
+FROM quay.io/keboola/base-python:3.5.2-b
 MAINTAINER Ondrej Popelka <ondrej.popelka@keboola.com>
 
 WORKDIR /home
