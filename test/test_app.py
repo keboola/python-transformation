@@ -1,63 +1,54 @@
 import transformation
 import os
 import csv
-import pytest
+import unittest
 
 
-class TestTransformation:
-    def test_transformation(self, data_dir):
-        if (os.getenv('KBC_DATA_DIR') is not None):
-            data_dir = os.getenv('KBC_DATA_DIR')
-        data_dir = data_dir + '/01/'
+class TestTransformation(unittest.TestCase):
+    def setUp(self):
+        if os.getenv('KBC_DATADIR') is not None:
+            self.data_dir = os.getenv('KBC_DATADIR')
+        else:
+            self.data_dir = '.'
+
+    def test_transformation(self):
+        data_dir = self.data_dir + '/01/'
         # generate absolute path before the application is run, because it may alter current working directory
         result_file = os.path.abspath(data_dir + '/out/tables/sample.csv')
 
         app = transformation.App(data_dir)
         app.run()
 
-        assert(os.path.isfile(result_file))
+        self.assertTrue(os.path.isfile(result_file))
         with open(result_file, 'rt') as sample:
             csv_reader = csv.DictReader(sample, delimiter=',', quotechar='"')
             for row in csv_reader:
-                expected = (int(row['funkyNumber']) ** 3)
-                assert(expected == int(row['biggerFunky']))
+                self.assertEqual(int(row['biggerFunky']), (int(row['funkyNumber']) ** 3))
 
-    def test_tagged_files(self, data_dir):
-        if (os.getenv('KBC_DATA_DIR') is not None):
-            data_dir = os.getenv('KBC_DATA_DIR')
-        data_dir = data_dir + '/02/'
+    def test_tagged_files(self,):
+        data_dir = self.data_dir + '/02/'
         # generate absolute path before the application is run, because it may alter current working directory
         result_dir = os.path.abspath(data_dir)
 
         app = transformation.App(data_dir)
         app.run()
 
-        assert(os.path.isfile(result_dir + '/in/user/pokus'))
-        assert(os.path.isfile(result_dir + '/in/user/model'))
-        assert(os.path.isfile(result_dir + '/out/tables/sample.csv'))
+        self.assertTrue(os.path.isfile(result_dir + '/in/user/pokus'))
+        self.assertTrue(os.path.isfile(result_dir + '/in/user/model'))
+        self.assertTrue(os.path.isfile(result_dir + '/out/tables/sample.csv'))
         with open(result_dir + '/out/tables/sample.csv', 'rt') as sample:
             csv_reader = csv.DictReader(sample, delimiter=',', quotechar='"')
             for row in csv_reader:
-                assert(5 == int(row['x']))
+                self.assertEqual(int(row['x']), 5)
 
-    def test_package_error(self, data_dir):
-        if (os.getenv('KBC_DATA_DIR') is not None):
-            data_dir = os.getenv('KBC_DATA_DIR')
-        data_dir = data_dir + '/03/'
+    def test_package_error(self):
+        data_dir = self.data_dir + '/03/'
         app = transformation.App(data_dir)
-        try:
+        with self.assertRaisesRegex(ValueError, "Failed to install package: some-non-existent-package"):
             app.run()
-            pytest.xfail("Must raise exception.")
-        except (ValueError):
-            pass
 
-    def test_script_syntax_error(self, data_dir):
-        if (os.getenv('KBC_DATA_DIR') is not None):
-            data_dir = os.getenv('KBC_DATA_DIR')
-        data_dir = data_dir + '/04/'
+    def test_script_syntax_error(self):
+        data_dir = self.data_dir + '/04/'
         app = transformation.App(data_dir)
-        try:
+        with self.assertRaisesRegex(ValueError, "Script failed."):
             app.run()
-            pytest.xfail("Must raise exception.")
-        except (ValueError):
-            pass

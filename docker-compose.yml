@@ -8,3 +8,5 @@ services:
     command: bash
     volumes:
       - ./:/code
+    environment:
+      - "KBC_DATADIR=/code/test/data"

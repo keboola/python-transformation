@@ -4,7 +4,7 @@ services:
   - docker
 before_script:
   - docker-compose build python-transformation
-script: docker-compose run --rm --entrypoint sh python-transformation /code/run_tests.sh
+script: docker-compose run --rm --entrypoint python python-transformation -m unittest discover
 after_success:
   - docker images
 deploy:

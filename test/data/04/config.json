@@ -18,7 +18,7 @@
         }
     },
     "parameters": {
-        "packages": ["matrix", "some-non-existent-package"],
+        "packages": ["matrix"],
         "script": [
             "this is a syntax error"
         ]
