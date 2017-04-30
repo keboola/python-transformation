@@ -17,13 +17,13 @@ class App:
         parameters = cfg.get_parameters()
         script_content = parameters.get('script')
         tags = parameters.get('tags')
-        if (tags is None):
+        if tags is None:
             tags = []
         packages = parameters.get('packages')
-        if (packages is None):
+        if packages is None:
             packages = []
 
-        if (script_content is None):
+        if script_content is None:
             raise ValueError('script_content is required parameter.')
 
         # install packages
@@ -75,12 +75,12 @@ class App:
             last_manifest = ''
             for file in cfg.get_input_files():
                 manifest = cfg.get_file_manifest(file)
-                if (tag in manifest['tags']):
+                if tag in manifest['tags']:
                     file_time = datetime.strptime(manifest['created'], '%Y-%m-%dT%H:%M:%S%z')
-                    if (file_time > last_time):
+                    if file_time > last_time:
                         last_time = file_time
                         last_manifest = file
-            if (last_manifest == ''):
+            if last_manifest == '':
                 raise ValueError("No files were found for tag: " + tag)
             else:
                 copyfile(last_manifest, os.path.join(cfg.get_data_dir(), 'in', 'user', tag))
