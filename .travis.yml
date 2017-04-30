@@ -13,5 +13,5 @@ deploy:
   script: ./deploy.sh
   on:
     tags: true  
-notifications: 
-  slack: "keboola:vkkYKFmIcqEe0ZpPKKAMJWfP"
+notifications:
+  slack: keboola:NCe8LwHlAyQBD4KS8BM0JkuA
