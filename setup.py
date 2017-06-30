@@ -4,6 +4,6 @@ setup(
     name='kbc_transformation',
     version='1.0',
     url='https://github.com/keboola/python-transformation',
-    packages=['kbc_transformation'],
+    packages=[''],
     package_dir = {'': ''}
 )
