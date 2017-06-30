@@ -8,7 +8,6 @@ class App:
         self.data_dir = data_dir
 
     def run(self):
-        import pip
         import sys
         import traceback
         # initialize KBC configuration
@@ -27,9 +26,7 @@ class App:
             raise ValueError('script_content is required parameter.')
 
         # install packages
-        for package in packages:
-            if pip.main(['install', '--disable-pip-version-check', '--no-cache-dir', package]) != 0:
-                raise ValueError('Failed to install package: ' + package)
+        self.install_packages(packages)
 
         # prepare tagged files
         self.prepare_tagged_files(cfg, tags)
@@ -55,7 +52,15 @@ class App:
                 traceback.print_exception(*sys.exc_info(), -stack_len, file=sys.stderr, chain=True)
                 raise ValueError('Script failed.')
 
-    def prepare_tagged_files(self, cfg, tags):
+    @staticmethod
+    def install_packages(packages):
+        import pip
+        for package in packages:
+            if pip.main(['install', '--disable-pip-version-check', '--no-cache-dir', package]) != 0:
+                raise ValueError('Failed to install package: ' + package)
+
+    @staticmethod
+    def prepare_tagged_files(cfg, tags):
         """
         When supplied a list of tags, select input files with the given tags and prepare the
         most recent file of those into a /user/ folder
