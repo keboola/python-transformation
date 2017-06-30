@@ -5,5 +5,5 @@ setup(
     version='1.0',
     url='https://github.com/keboola/python-transformation',
     packages=['kbc_transformation'],
-    package_dir = {'kbc_transformation': ''}
+    package_dir = {'': ''}
 )
