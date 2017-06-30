@@ -1,2 +1,1 @@
-__all__ = ['kbc-transformation']
-__title__ = 'kbc-transformation'
+__all__ = ['kbc_transformation']
