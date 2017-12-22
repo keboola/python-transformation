@@ -6,4 +6,4 @@ WORKDIR /home
 COPY . /home/
 
 # Run the application
-ENTRYPOINT python ./main.py --data=/data/
+ENTRYPOINT python -u ./main.py --data=/data/
