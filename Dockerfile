@@ -1,4 +1,4 @@
-FROM quay.io/keboola/docker-custom-python:1.5.3
+FROM quay.io/keboola/docker-custom-python:1.5.4
 
 WORKDIR /home
 
