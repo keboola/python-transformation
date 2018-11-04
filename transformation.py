@@ -49,14 +49,19 @@ class App:
                 _, _, tb = sys.exc_info()
                 stack_len = len(traceback.extract_tb(tb)) - 1
                 print(err, file=sys.stderr)
-                traceback.print_exception(*sys.exc_info(), -stack_len, file=sys.stderr, chain=True)
+                traceback.print_exception(*sys.exc_info(), -stack_len,
+                                          file=sys.stderr, chain=True)
                 raise ValueError('Script failed.')
 
     @staticmethod
     def install_packages(packages):
-        import pip
+        import subprocess
+        import sys
         for package in packages:
-            if pip.main(['install', '--disable-pip-version-check', '--no-cache-dir', package]) != 0:
+            if subprocess.call([sys.executable, '-m', 'pip', 'install',
+                                '--disable-pip-version-check',
+                                '--no-cache-dir',
+                                '--force-reinstall', package]) != 0:
                 raise ValueError('Failed to install package: ' + package)
 
     @staticmethod
@@ -81,12 +86,16 @@ class App:
             for file in cfg.get_input_files():
                 manifest = cfg.get_file_manifest(file)
                 if tag in manifest['tags']:
-                    file_time = datetime.strptime(manifest['created'], '%Y-%m-%dT%H:%M:%S%z')
+                    file_time = datetime.strptime(manifest['created'],
+                                                  '%Y-%m-%dT%H:%M:%S%z')
                     if file_time > last_time:
                         last_time = file_time
                         last_manifest = file
             if last_manifest == '':
                 raise ValueError("No files were found for tag: " + tag)
             else:
-                copyfile(last_manifest, os.path.join(cfg.get_data_dir(), 'in', 'user', tag))
-                copyfile(last_manifest + '.manifest', os.path.join(cfg.get_data_dir(), 'in', 'user', tag + '.manifest'))
+                copyfile(last_manifest,
+                         os.path.join(cfg.get_data_dir(), 'in', 'user', tag))
+                copyfile(last_manifest + '.manifest',
+                         os.path.join(cfg.get_data_dir(), 'in', 'user',
+                                      tag + '.manifest'))
