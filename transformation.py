@@ -1,6 +1,7 @@
 # coding=utf-8
 from keboola import docker
 import os
+import sys
 
 
 class App:
@@ -40,6 +41,8 @@ class App:
 
         # Change current working directory so that relative paths work
         os.chdir(cfg.get_data_dir())
+        sys.path.append(cfg.get_data_dir())
+
         # Execute the actual script
         with open('script.py', 'rt') as script:
             try:
