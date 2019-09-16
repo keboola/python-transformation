@@ -13,7 +13,8 @@ class TestTransformation(unittest.TestCase):
 
     def test_transformation(self):
         data_dir = self.data_dir + '/01/'
-        # generate absolute path before the application is run, because it may alter current working directory
+        # generate absolute path before the application is run, because it
+        # may alter current working directory
         result_file = os.path.abspath(data_dir + '/out/tables/sample.csv')
 
         app = transformation.App(data_dir)
@@ -23,11 +24,13 @@ class TestTransformation(unittest.TestCase):
         with open(result_file, 'rt') as sample:
             csv_reader = csv.DictReader(sample, delimiter=',', quotechar='"')
             for row in csv_reader:
-                self.assertEqual(int(row['biggerFunky']), (int(row['funkyNumber']) ** 3))
+                self.assertEqual(int(row['biggerFunky']),
+                                 (int(row['funkyNumber']) ** 3))
 
     def test_tagged_files(self,):
         data_dir = self.data_dir + '/02/'
-        # generate absolute path before the application is run, because it may alter current working directory
+        # generate absolute path before the application is run, because it
+        # may alter current working directory
         result_dir = os.path.abspath(data_dir)
 
         app = transformation.App(data_dir)
@@ -44,7 +47,8 @@ class TestTransformation(unittest.TestCase):
     def test_package_error(self):
         data_dir = self.data_dir + '/03/'
         app = transformation.App(data_dir)
-        with self.assertRaisesRegex(ValueError, "Failed to install package: some-non-existent-package"):
+        with self.assertRaisesRegex(ValueError, "Failed to install package: "
+                                                "some-non-existent-package"):
             app.run()
 
     def test_script_syntax_error(self):
@@ -52,3 +56,16 @@ class TestTransformation(unittest.TestCase):
         app = transformation.App(data_dir)
         with self.assertRaisesRegex(ValueError, "Script failed."):
             app.run()
+
+    def test_current_working_dir(self,):
+        data_dir = self.data_dir + '/05/'
+        # generate absolute path before the application is run, because it
+        # may alter current working directory
+        result_dir = os.path.abspath(data_dir)
+
+        app = transformation.App(data_dir)
+        app.run()
+
+        self.assertTrue(os.path.isfile(result_dir + '/hello.txt'))
+        with open(result_dir + '/hello.txt', 'rt') as sample:
+            self.assertEqual('I was imported\n', sample.read())

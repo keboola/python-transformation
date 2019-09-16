@@ -10,3 +10,8 @@ __pycache__
 /test/data/02/script.py
 /test/data/01/script.py
 /.idea
+/data
+/test/data/04/script.py
+/test/data/05/my_module/src/my_module
+/test/data/05/hello.txt
+/test/data/05/script.py
