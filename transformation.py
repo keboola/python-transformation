@@ -57,7 +57,7 @@ class App:
                 raise ValueError('Script failed.')
 
     @staticmethod
-    def install_packages(packages, userOption = false):
+    def install_packages(packages, userOption = False):
         import subprocess
         import sys
         for package in packages:
