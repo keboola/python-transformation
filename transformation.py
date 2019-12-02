@@ -66,10 +66,11 @@ class App:
                 '-m', 'pip', 'install',
                '--disable-pip-version-check',
                '--no-cache-dir',
-               '--force-reinstall'
+               '--force-reinstall',
+               package
             ]
-            if userOption: args.append('--user')
-            args.append(package)
+            if userOption:
+                args.insert(6, '--user')
             if subprocess.call(args) != 0:
                 raise ValueError('Failed to install package: ' + package)
 
