@@ -57,14 +57,21 @@ class App:
                 raise ValueError('Script failed.')
 
     @staticmethod
-    def install_packages(packages):
+    def install_packages(packages, userOption = False):
         import subprocess
         import sys
         for package in packages:
-            if subprocess.call([sys.executable, '-m', 'pip', 'install',
-                                '--disable-pip-version-check',
-                                '--no-cache-dir',
-                                '--force-reinstall', package]) != 0:
+            args = [
+                sys.executable,
+                '-m', 'pip', 'install',
+               '--disable-pip-version-check',
+               '--no-cache-dir',
+               '--force-reinstall',
+               package
+            ]
+            if userOption:
+                args.insert(6, '--user')
+            if subprocess.call(args) != 0:
                 raise ValueError('Failed to install package: ' + package)
 
     @staticmethod
