@@ -7,3 +7,7 @@ Package is available only on Github, so you need to use `pip` to install the pac
 ```
 pip install --upgrade git+git://github.com/keboola/python-transformation.git
 ```
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
